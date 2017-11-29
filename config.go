@@ -3,22 +3,22 @@
 package mail
 
 type SMTPConfig struct {
-	Server string
-	Port int
-	User string
+	Server   string
+	Port     int
+	User     string
 	Password string
 }
 
 type TemplateConfig struct {
-	Name string
-	File string
+	Name        string
+	File        string
 	SenderEmail string
 }
 
 type ConfigType struct {
-	SMTP *SMTPConfig
+	SMTP         *SMTPConfig
 	TemplateRoot string
-	Templates []*TemplateConfig
+	Templates    []*TemplateConfig
 }
 
 var Config ConfigType = ConfigType{
@@ -30,7 +30,7 @@ var Config ConfigType = ConfigType{
 	},
 	"./mails",
 	[]*TemplateConfig{
-		&TemplateConfig{
+		{
 			"package",
 			"package.tmpl",
 			"noreply+reception@domain.tld",

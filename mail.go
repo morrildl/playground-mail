@@ -28,7 +28,7 @@ func loadTemplate(file string, name string) (*template.Template, error) {
 		return nil, err
 	}
 	if !strings.HasPrefix(path, Config.TemplateRoot) {
-		log.Error("mail.loadTemplate","requested file '"+file+"' is not a child of template root")
+		log.Error("mail.loadTemplate", "requested file '"+file+"' is not a child of template root")
 		return nil, errors.New("requested file is not a child of template root")
 	}
 	if stat, err := os.Stat(path); err != nil || (stat != nil && stat.IsDir()) {
@@ -54,14 +54,14 @@ func Send(template string, rcpt []string, params interface{}) error {
 	tmpl, t_ok := templates[template]
 	sender, s_ok := senders[template]
 	if !t_ok || !s_ok {
-		log.Error("mail.Send", "unknown template '" + template + "' referenced by caller")
+		log.Error("mail.Send", "unknown template '"+template+"' referenced by caller")
 		return errors.New("unknown template")
 	}
 
 	var buf bytes.Buffer
 	err := tmpl.Execute(&buf, params)
 	if err != nil {
-		log.Error("mail.Send", "template '" + template + "' failed to execute", err)
+		log.Error("mail.Send", "template '"+template+"' failed to execute", err)
 		return err
 	}
 	payload := buf.Bytes()
@@ -89,7 +89,7 @@ func Ready() {
 	for _, tCfg := range Config.Templates {
 		tmpl, err := loadTemplate(tCfg.File, tCfg.Name)
 		if err != nil {
-			log.Error("mail.Ready", "failed to load template '" + tCfg.Name + "'", err)
+			log.Error("mail.Ready", "failed to load template '"+tCfg.Name+"'", err)
 			panic("failed to load template")
 		}
 		templates[tCfg.Name] = tmpl
